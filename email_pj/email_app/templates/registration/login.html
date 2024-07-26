@@ -1,0 +1,14 @@
+{% extends "email/base.html" %}
+
+{% block content %}
+    <h2>Доступ только для авторизованных пользователей</h2>
+    <form class="form-group" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-outline-primary" type="submit">Войти</button>
+    </form>
+    <form  class="form-group" method="get" action="{% url 'register' %}">
+        <button class="btn btn-outline-primary" type="submit">Зарегистрироваться</button>
+    </form>
+{% endblock %}
+

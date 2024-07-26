@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <style>
+    body {
+    background-image: url({% static "img/background.jpg"%});
+       background-repeat: no-repeat;
+       background-position: center center;
+       background-attachment: fixed;
+       -webkit-background-size: cover;
+       -moz-background-size: cover;
+       -o-background-size: cover;
+       background-size: cover;
+     </style>
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+ {% block content %} {% endblock %}
+</body>
+</html>
