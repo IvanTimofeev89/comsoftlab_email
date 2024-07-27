@@ -1,0 +1,36 @@
+{% extends "email/base.html" %}
+{% block title %} Входящие сообщения  {% endblock %}
+{% block content %}
+{% include 'email/login-out_buttoms.html' %}
+
+<div class="container">
+   <table class="table">
+      <thead>
+         <tr>
+            <th scope="col">Тема</th>
+            <th scope="col">Дата отправления</th>
+            <th scope="col">Дата получения</th>
+            <th scope="col">Содержание</th>
+            <th scope="col">Файлы</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for email in user_emails %}
+         <tr>
+            <td>{{ email.topic }}</td>
+            <td>{{ email.sending_date_iso }}</td>
+            <td>{{ email.receipt_date_iso }}</td>
+            <td>{{ email.content }}</td>
+            <td>
+               <ul>
+                  {% for attachment in email.attachments.all %}
+                  <li><a href="{{ attachment.file.url }}">{{ attachment.name }}</a></li>
+                  {% endfor %}
+               </ul>
+            </td>
+         </tr>
+         {% endfor %}
+      </tbody>
+   </table>
+</div>
+{% endblock %}

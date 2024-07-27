@@ -23,8 +23,15 @@ class CustomUser(AbstractUser):
     )
 
 class Email(models.Model):
-    topic = models.CharField(max_length=255)
-    sending_date = models.DateTimeField()
-    receipt_date = models.DateTimeField()
+    binary_id = models.BinaryField(blank=True, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='emails')
+    topic = models.CharField(max_length=255, blank=True)
+    sending_date = models.BigIntegerField(blank=True, null=True)
+    receipt_date = models.BigIntegerField(blank=True, null=True, db_index=True)
     content = models.TextField()
-    files = models.FileField(upload_to='email_files')
+
+
+class EmailAttachment(models.Model):
+    email = models.ForeignKey(Email, on_delete=models.CASCADE, related_name='attachments')
+    file = models.FileField(upload_to='email_files', blank=True, null=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
