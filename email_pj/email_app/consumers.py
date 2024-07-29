@@ -1,10 +1,13 @@
 import json
+
 from channels.generic.websocket import WebsocketConsumer
+
 from .email_handler import EmailHandler
+
 
 class MailboxConsumer(WebsocketConsumer):
     def connect(self):
-        self.user = self.scope['user']
+        self.user = self.scope["user"]
         if self.user.is_anonymous:
             self.close()
         else:
@@ -18,4 +21,3 @@ class MailboxConsumer(WebsocketConsumer):
         emails = email_handler.fetch_emails()
         for email_data in emails:
             self.send(text_data=json.dumps(email_data))
-

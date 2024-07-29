@@ -7,7 +7,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "5431:5432"
+      - "5432:5432"
     env_file:
       - .env
     healthcheck:
@@ -17,5 +17,27 @@ services:
       retries: 5
       start_period: 10s
 
+  redis:
+      container_name: redis_container
+      image: redis:latest
+      restart: unless-stopped
+      ports:
+        - "6379:6379"
+
+  web:
+    container_name: django_container
+    build: ./email_pj
+    volumes:
+      - media_files:/home/app/web/email_pj/media/email_files
+
+    ports:
+      - "7000:7000"
+    env_file:
+      - .env
+    depends_on:
+      - postgres_db
+      - redis
+
 volumes:
   pgdata:
+  media_files:
