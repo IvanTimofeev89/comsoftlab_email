@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -24,6 +25,10 @@ class CustomUser(AbstractUser):
         verbose_name=("user permissions"),
     )
 
+    def save(self, *args, **kwargs):
+        if self.email_password and not self.email_password.startswith('pbkdf2_sha256$'):
+            self.email_password = make_password(self.email_password)
+        super().save(*args, **kwargs)
 
 class Email(models.Model):
     email_uid = models.IntegerField(db_index=True)
